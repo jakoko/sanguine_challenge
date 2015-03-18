@@ -11,21 +11,42 @@
     <h1>Schedule</h1>
 
     <div>
-<!--     dropdown hours
-    dropdown minutes
-    enter date -->
+        <div id="start-time">
+            <select ng-model="startTimeOfDay" ng-options="day as day for day in timeOfDay">
+            </select>
+
+            <select ng-model="startHour" ng-options="opt as opt.label for opt in hours">
+            </select>
+
+            <select ng-model="startMinute" ng-options="opt as opt.label for opt in minutes">
+            </select>
+        </div>
+
+        <div id="end-time">
+            <select ng-model="endTimeOfDay" ng-options="day as day for day in timeOfDay">
+            </select>
+
+            <select ng-model="endHour" ng-options="opt as opt.label for opt in hours">
+            </select>
+
+            <select ng-model="endMinute" ng-options="opt as opt.label for opt in minutes">
+            </select>
+        </div>
+
+        <div id="date">
+            
+        </div>
     </div>
 
     <h3>Planned Appointments</h3>
 
     <div>
-
         <ul ng-repeat="schedule in planned">
             <h3>Begin Time</h3>
-            <p>{{schedule["beginTime"]}}</p>
+            <p>{{schedule.beginTime}}</p>
 
             <h3>End Time</h3>
-            <p>{{schedule["endTime"]}}</p>
+            <p>{{schedule.endTime}}</p>
         </ul>
     </div>
 
