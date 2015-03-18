@@ -7,4 +7,4 @@ var scheduleSchema   = new Schema({
     date:      { type: Date, required: true }
 });
 
-mongoose.model('schedule', scheduleSchema);
+module.exports = mongoose.model('schedule', scheduleSchema);

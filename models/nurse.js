@@ -7,4 +7,4 @@ var nurseSchema   = new Schema({
     password: { type: String, required: true },
 });
 
-mongoose.model('nurse', nurseSchema);
+module.exports = mongoose.model('nurse', nurseSchema);
