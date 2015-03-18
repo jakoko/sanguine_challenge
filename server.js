@@ -4,7 +4,6 @@ var app     = express();
 var mongoose  = require('mongoose');
 mongoose.connect('mongodb://localhost/nursedatabase');
 
-
 // Schemas
 var Nurse       = require('./models/nurse.js');
 var Schedule    = require('./models/schedule.js');
@@ -16,10 +15,22 @@ app.use("/node_modules", express.static(__dirname + '/node_modules'));
 
 // Routes
 app.get('/', function(request, response) {
-
-  
     response.sendFile(__dirname + "/views/home.html")
 });
+
+
+// API Related
+app.get("/api/nurses", function(request, response){
+    Nurse.findOne({ username: request.params.username }, function(err, data) {
+        if(err) {
+            response.send(err);
+        }
+
+        response.json(data);
+    });
+});
+
+
 
 app.listen(8080);
 
