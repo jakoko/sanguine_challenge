@@ -7,7 +7,27 @@
     <script src="../public/nurseController.js"></script>
 </head>
 <body ng-controller='nurseController as nurse'>
-{{3+3}}
-<h1>here</h1>
+
+    <h1>Schedule</h1>
+
+    <div>
+<!--     dropdown hours
+    dropdown minutes
+    enter date -->
+    </div>
+
+    <h3>Planned Appointments</h3>
+
+    <div>
+
+        <ul ng-repeat="schedule in planned">
+            <h3>Begin Time</h3>
+            <p>{{schedule["beginTime"]}}</p>
+
+            <h3>End Time</h3>
+            <p>{{schedule["endTime"]}}</p>
+        </ul>
+    </div>
+
 </body>
 </html>
