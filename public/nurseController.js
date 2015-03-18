@@ -1,34 +1,13 @@
 angular.module('nurseApp')
     .controller('nurseController', nurseController);
 
-    nurseController.$inject = ['$scope', '$http'];
+    nurseController.$inject = ['$scope', '$http', 'timeOptions'];
 
-    function nurseController($scope, $http) {
-        // Time of day
-        $scope.timeOfDay = ["AM", "PM"];
-
-        // Hours Options
-        $scope.hours = [
-            { label: '1', value: 1 },
-            { label: '2', value: 2 },
-            { label: '3', value: 3 },
-            { label: '4', value: 4 },
-            { label: '5', value: 5 },
-            { label: '6', value: 6 },
-            { label: '7', value: 7 },
-            { label: '8', value: 8 },
-            { label: '9', value: 9 },
-            { label: '10', value: 10 },
-            { label: '11', value: 11},
-            { label: '12', value: 12 },
-        ];
-
-        $scope.minutes = [
-            { label: '00', value: 0 },
-            { label: '15', value: 15 },
-            { label: '30', value: 30 },
-            { label: '45', value: 45 },
-        ];
+    function nurseController($scope, $http, timeOptions) {
+        var timeOptions     = new timeOptions();
+        $scope.timeOfDay    = timeOptions.timeOfDay;
+        $scope.hours        = timeOptions.hours;
+        $scope.minutes      = timeOptions.minutes;
 
         // Set default values on dropdown options
         $scope.startTimeOfDay   = $scope.timeOfDay[0];
@@ -47,31 +26,11 @@ angular.module('nurseApp')
             $scope.planned      = userData.schedules;
         });
 
-        var convertTimeToMilitary = function(time, hour, minute) {
-            var militaryTime = "";
-
-            // Convert minute
-            if(minute === 0) 
-                militaryTime = militaryTime + "00";
-            else
-                militaryTime = militaryTime + minute.toString();
-
-            // Covert hour
-            if(time === "AM")
-                militaryTime = hour.toString() + militaryTime;
-            else if(time === "PM")
-                militaryTime = (hour + 12).toString() + militaryTime
-
-            return militaryTime;
-        };
-
-
-
 
         $scope.addToSchedule = function() {
 
-            var beginTime   = convertTimeToMilitary($scope.startTimeOfDay, $scope.startHour.value, $scope.startMinute.value);
-            var endTime     = convertTimeToMilitary($scope.endTimeOfDay, $scope.endHour.value, $scope.endMinute.value);
+            var beginTime   = timeOptions.convertTimeToMilitary($scope.startTimeOfDay, $scope.startHour.value, $scope.startMinute.value);
+            var endTime     = timeOptions.convertTimeToMilitary($scope.endTimeOfDay, $scope.endHour.value, $scope.endMinute.value);
             console.log(beginTime);
             console.log(endTime);
 
