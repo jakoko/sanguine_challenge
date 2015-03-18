@@ -8,4 +8,13 @@ var scheduleSchema   = new Schema({
     // date:      { type: Date, required: true }
 });
 
-module.exports = mongoose.model('Schedule', scheduleSchema);
+module.exports = mongoose.model('Schedule', scheduleSchema);var convertTimeToMilitary = function(time, hour, minute) {
+    var militaryTime = "";
+
+    // Convert minute
+    if(minute === 0) {
+        militaryTime = militaryTime + "00";
+    }
+
+
+};

@@ -37,6 +37,32 @@ app.get("/api/nurses", function(request, response){
     });
 });
 
+app.put('/api/nurses', function(request, response) {
+
+    var nurse;
+
+    // Find user
+    Nurse.findOne({ username: request.body.username }, function(err, data) {
+        if(err) {
+            response.send(err);
+        }
+        
+        nurse = data;
+
+        // Add schedule
+        nurse.schedules.push(request.body.schedule);
+                
+        console.log(nurse);
+
+        nurse.save(function(err) {
+          if (err) throw err;
+
+          console.log('Schedule updated!');
+        });
+
+    })
+});
+
 
 
 app.listen(8080);
