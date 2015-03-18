@@ -1,17 +1,37 @@
 angular.module('nurseApp')
     .controller('nurseController', nurseController);
 
-    nurseController.$inject = ['$scope'];
+    nurseController.$inject = ['$scope', '$http'];
 
-    function nurseController($scope) {
+    function nurseController($scope, $http) {
+
+        
+        // GET request to retrieve nurse and schedules
+        var username = "starlord55";
+        $http({
+            url: "/api/nurses",
+            method: "GET",
+            params: { username: username }
+        }).success(function(data, status, headers, config) {
+            console.log(data);
+            var userData = data;
+            $scope.planned      = userData.schedules;
+        });
+
+
+        // PUT to update nurse object with new schedules
+        
+
+
+
 
         // Test Data
-        $scope.planned = [
-            { beginTime: 1230,
-              endTime: 1430 },
-            { beginTime: 0930,
-              endTime: 1100 }
-        ];
+        // $scope.planned = [
+        //     { beginTime: 1230,
+        //       endTime: 1430 },
+        //     { beginTime: 0930,
+        //       endTime: 1100 }
+        // ];
 
         // Time of day
         $scope.timeOfDay = ["AM", "PM"];

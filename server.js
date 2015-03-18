@@ -4,6 +4,10 @@ var app     = express();
 var mongoose  = require('mongoose');
 mongoose.connect('mongodb://localhost/nursedatabase');
 
+var bodyParser      = require('body-parser');
+var methodOverride  = require('method-override');
+
+
 // Schemas
 var Nurse       = require('./models/nurse.js');
 var Schedule    = require('./models/schedule.js');
@@ -11,17 +15,20 @@ var Schedule    = require('./models/schedule.js');
 // Access to files in html
 app.use("/public", express.static(__dirname + '/public'));
 app.use("/node_modules", express.static(__dirname + '/node_modules'));
-
+app.use(methodOverride());
+app.use(bodyParser.urlencoded({'extended':'true'}));
+app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
+app.use(bodyParser.json());
 
 // Routes
 app.get('/', function(request, response) {
     response.sendFile(__dirname + "/views/home.html")
 });
 
-
 // API Related
 app.get("/api/nurses", function(request, response){
-    Nurse.findOne({ username: request.params.username }, function(err, data) {
+
+    Nurse.findOne({ username: request.query.username }, function(err, data) {
         if(err) {
             response.send(err);
         }
