@@ -6,23 +6,22 @@ var methodOverride  = require('method-override');
 var mongoose  = require('mongoose');
 mongoose.connect('mongodb://localhost/nursedatabase');
 
-// Schemas
-var Nurse       = require('./models/nurse.js');
-var Schedule    = require('./models/schedule.js');
-
-// Load Seed data
-var seedNurse   = require('./models/seedNurse.js');
-seedNurse();
-
-// Access to files in html
-app.use("/public", express.static(__dirname + '/public'));
-app.use("/node_modules", express.static(__dirname + '/node_modules'));
-
-// Important code that I'm not quite sure how they work
 app.use(methodOverride());
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
 app.use(bodyParser.json());
+
+// Schemas
+var Nurse       = require('./app/models/nurse.js');
+var Schedule    = require('./app/models/schedule.js');
+
+// Load Seed data
+var seedNurse   = require('./app/models/seedNurse.js');
+seedNurse();
+
+// Access to files in html
+app.use("/public/javascripts", express.static(__dirname + '/public/javascripts'));
+app.use("/node_modules", express.static(__dirname + '/node_modules'));
 
 
 /******************
@@ -30,7 +29,7 @@ app.use(bodyParser.json());
 *******************/
 // Serve up home.html at root
 app.get('/', function(request, response) {
-    response.sendFile(__dirname + "/views/home.html")
+    response.sendFile(__dirname + "/public/views/home.html")
 });
 
 /******************
