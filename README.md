@@ -6,7 +6,7 @@ This is a simple app that allows the user(a nurse) to schedule a blood drawal.
 ## Installation
 - git clone
 - run mongoDB
-- start server on server.js
+- start node server on server.js
 - open browser on port 8080
 
 A seed file is included, and it will load data when the server starts up.

@@ -61,6 +61,10 @@ angular.module('nurseApp')
                 var endTime     = timeOptions
                                         .convertTimeToMilitary($scope.endTimeOfDay, $scope.endHour.value, $scope.endMinute.value);
                 var date        = new Date($scope.startYear.value, $scope.startMonth.value, $scope.startDay.value);
+
+                if(parseInt(beginTime) >= parseInt(endTime)) {
+                    throw "1"
+                }
                 
                 // Package data to create Schedule collection on server
                 var addSchedule = {
@@ -90,7 +94,10 @@ angular.module('nurseApp')
                 });
             }
             catch(err) {
-                $scope.errorMsg = "Something is missing!";
+                if(err === "1")
+                    $scope.errorMsg = "The start time is later than the end time!";
+                else 
+                    $scope.errorMsg = "Something is missing!";
             }
         }; // End of addToSchedule()
 
