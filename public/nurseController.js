@@ -7,6 +7,7 @@ angular.module('nurseApp')
         // Time Related Constants and Functions
         var timeOptions     = new timeOptions();
         $scope.convertDate  = timeOptions.convertDate;
+        $scope.convertTimeToStandard  = timeOptions.convertTimeToStandard;
         $scope.timeOfDay    = timeOptions.timeOfDay;
         $scope.hours        = timeOptions.hours;
         $scope.minutes      = timeOptions.minutes;

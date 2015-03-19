@@ -107,8 +107,8 @@
 
                 <tr ng-repeat="schedule in planned track by schedule._id">
                     <td>{{ convertDate(schedule.date) }}</td>
-                    <td>{{ schedule.beginTime }}</td>
-                    <td>{{ schedule.endTime }}</td>
+                    <td>{{ convertTimeToStandard(schedule.beginTime) }}</td>
+                    <td>{{ convertTimeToStandard(schedule.endTime) }}</td>
                     <td>
                         <button ng-click="deleteSchedule(schedule._id, $index)" class="btn btn-warning">
                             Remove

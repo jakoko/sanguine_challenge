@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 var Schema   = mongoose.Schema;
 
 var scheduleSchema   = new Schema({
-    beginTime: { type: Number, required: true },
-    endTime:   { type: Number, required: true },
+    beginTime: { type: String, required: true },
+    endTime:   { type: String, required: true },
     date:      { type: Date, required: true }
 });
 

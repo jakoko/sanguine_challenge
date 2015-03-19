@@ -104,6 +104,33 @@ function timeOptionsFunc() {
             return militaryTime;
         };
 
+        this.convertTimeToStandard = function(militaryTime) {
+
+            var convertedTime   = "";
+            var stringLength    = militaryTime.length;
+            var tempInt         = parseInt(militaryTime, 10);
+            var temparr         = militaryTime.split("");
+
+            if(tempInt < 1200) {
+                temparr.splice(stringLength - 2, 0, ":");
+                convertedTime = temparr.join('') + " AM";
+            }
+            else if(tempInt < 1300) {
+                temparr.splice(stringLength - 2, 0, ":");
+                convertedTime = temparr.join('') + " PM";
+            }
+            else {
+                tempInt         = tempInt - 1200;
+                convertedTime   = tempInt.toString();
+                stringLength    = convertedTime.length;
+                temparr         = convertedTime.split("");
+                temparr.splice(stringLength - 2, 0, ":");
+                convertedTime   = temparr.join('') + " PM";
+            }
+
+            return convertedTime;
+        };
+
         this.convertDate = function(isoDate) {
             return new Date(isoDate).toLocaleDateString();
         };
