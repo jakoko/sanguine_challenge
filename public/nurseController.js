@@ -14,12 +14,9 @@ angular.module('nurseApp')
         $scope.day          = timeOptions.day;
         $scope.year         = timeOptions.year;
 
-        // Set default values on dropdown options
-        $scope.startTimeOfDay   = $scope.timeOfDay[0];
-        $scope.startHour        = $scope.hours[8];
-        $scope.startMinute      = $scope.minutes[0];
-        $scope.startYear        = $scope.year[0];
-        
+        var nullifyOptions  = nullifyOptions;
+        setDefaultOptions();
+
         // GET request to retrieve nurse and schedules
         var username = "starlord55";
         $http({
@@ -60,8 +57,7 @@ angular.module('nurseApp')
 
                 addSchedule._id = data.id;
                 $scope.planned.push(addSchedule);
-
-                
+                setDefaultOptions();
             });
         }; // End of addToSchedule()
 
@@ -80,5 +76,18 @@ angular.module('nurseApp')
 
 
         }; // End of deleteSchedule
+
+
+        function setDefaultOptions() {
+            $scope.startTimeOfDay   = $scope.timeOfDay[0];
+            $scope.startHour        = $scope.hours[8];
+            $scope.startMinute      = $scope.minutes[0];
+            $scope.endTimeOfDay     = null;
+            $scope.endHour          = null;
+            $scope.endMinute        = null;
+            $scope.startMonth       = null;
+            $scope.startDay         = null;
+            $scope.startYear        = $scope.year[0];
+        }
 
     }; // End of nurseController
