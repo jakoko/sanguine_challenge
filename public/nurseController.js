@@ -30,6 +30,7 @@ angular.module('nurseApp')
 
             var userData = data;
             $scope.planned      = userData.schedules;
+
         });
 
         $scope.addToSchedule = function() {
@@ -64,7 +65,7 @@ angular.module('nurseApp')
         }; // End of addToSchedule()
 
         $scope.deleteSchedule = function(id, index) {
-
+            console.log(index,id);
             $http({
                 url: '/api/nurses/schedule',
                 method: "DELETE",
