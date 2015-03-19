@@ -59,7 +59,12 @@
                 <h2>Enter Date</h2>
             </div>
             <div id="date" class="col-md-6 col-md-offset-3">
-                asdfasdfasdfasdf
+                <select ng-model="startMonth" ng-options="opt as opt.label for opt in month">
+                </select>
+                <select ng-model="startDay" ng-options="opt as opt.label for opt in day">
+                </select>
+                <select ng-model="startYear" ng-options="opt as opt.label for opt in year">
+                </select>
             </div>
         </div>
 
@@ -84,7 +89,7 @@
                 </tr>
 
                 <tr ng-repeat="schedule in planned track by $index">
-                    <td>Date</td>
+                    <td>{{ convertDate(schedule.date) }}</td>
                     <td>{{ schedule.beginTime }}</td>
                     <td>{{ schedule.endTime }}</td>
                     <td>

@@ -4,15 +4,21 @@ angular.module('nurseApp')
     nurseController.$inject = ['$scope', '$http', 'timeOptions'];
 
     function nurseController($scope, $http, timeOptions) {
+        // Time Related Constants and Functions
         var timeOptions     = new timeOptions();
+        $scope.convertDate  = timeOptions.convertDate;
         $scope.timeOfDay    = timeOptions.timeOfDay;
         $scope.hours        = timeOptions.hours;
         $scope.minutes      = timeOptions.minutes;
+        $scope.month        = timeOptions.month;
+        $scope.day          = timeOptions.day;
+        $scope.year         = timeOptions.year;
 
         // Set default values on dropdown options
         $scope.startTimeOfDay   = $scope.timeOfDay[0];
         $scope.startHour        = $scope.hours[8];
         $scope.startMinute      = $scope.minutes[0];
+        $scope.startYear        = $scope.year[0];
         
         // GET request to retrieve nurse and schedules
         var username = "starlord55";
@@ -21,28 +27,26 @@ angular.module('nurseApp')
             method: "GET",
             params: { username: username }
         }).success(function(data, status, headers, config) {
-            console.log(data);
+
             var userData = data;
             $scope.planned      = userData.schedules;
         });
-
 
         $scope.addToSchedule = function() {
 
             var beginTime   = timeOptions.convertTimeToMilitary($scope.startTimeOfDay, $scope.startHour.value, $scope.startMinute.value);
             var endTime     = timeOptions.convertTimeToMilitary($scope.endTimeOfDay, $scope.endHour.value, $scope.endMinute.value);
-            console.log(beginTime);
-            console.log(endTime);
+
+            var date        = new Date($scope.startYear.value, $scope.startMonth.value, $scope.startDay.value)
 
             // Package data
             var addSchedule = {
                 beginTime: beginTime,
-                endTime: endTime
-                // ,
-                // date: 
+                endTime: endTime,
+                date: date
             };
 
-            console.log(addSchedule); 
+
 
             // PUT to update nurse object with new schedules
             $http({
@@ -69,8 +73,6 @@ angular.module('nurseApp')
                     scheduleID: id
                 }
             }).success(function(data, status, headers, config) {
-                console.log('scheule removed');
-
                 $scope.planned.splice(index, 1);
             });
 
