@@ -57,18 +57,22 @@ angular.module('nurseApp')
                 // add to list on front end
                 // reseut values
             });
-        };
+        }; // End of addToSchedule()
+
+        $scope.deleteSchedule = function(id) {
+
+            $http({
+                url: '/api/nurses/schedule',
+                method: "DELETE",
+                params: {
+                    username: "starlord55",
+                    scheduleID: id
+                }
+            }).success(function(data, status, headers, config) {
+                console.log('scheule removed');
+            });
 
 
+        }; // End of deleteSchedule
 
-
-        // Test Data
-        // $scope.planned = [
-        //     { beginTime: 1230,
-        //       endTime: 1430 },
-        //     { beginTime: 0930,
-        //       endTime: 1100 }
-        // ];
-
-
-    };
+    }; // End of nurseController

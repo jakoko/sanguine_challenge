@@ -39,15 +39,13 @@ app.get("/api/nurses", function(request, response){
 
 app.put('/api/nurses', function(request, response) {
 
-    var nurse;
-
     // Find user
     Nurse.findOne({ username: request.body.username }, function(err, data) {
         if(err) {
             response.send(err);
         }
         
-        nurse = data;
+        var nurse = data;
 
         // Add schedule
         nurse.schedules.push(request.body.schedule);
@@ -61,7 +59,23 @@ app.put('/api/nurses', function(request, response) {
         });
 
     })
-});
+}); // End of app.put
+
+app.delete('/api/nurses/schedule', function(request, response) {
+
+    Nurse.findOne({ username: request.query.username }, function(err, data) {
+        var nurse = data;
+
+        nurse.schedules.id(request.query.scheduleID).remove();
+
+        nurse.save(function(err) {
+            if(err) throw err;
+            console.log("the sub doc was removed");
+        })
+    });
+
+    response.json({ message: "Success"});
+}); // End of app.delete
 
 
 
