@@ -36,7 +36,6 @@ app.get("/api/nurses", function(request, response){
         if(err) {
             response.send(err);
         }
-
         response.json(data);
     });
 });

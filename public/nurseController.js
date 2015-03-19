@@ -18,6 +18,7 @@ angular.module('nurseApp')
 
         $scope.username     = null;
         $scope.showLogin    = true;
+        $scope.errorMsg     = null;
 
         $scope.getUser     = function() {
             $http({
@@ -25,58 +26,68 @@ angular.module('nurseApp')
                 method: "GET",
                 params: { username: $scope.username }
             }).success(function(data, status, headers, config) {
-
-                var userData = data;
-                $scope.planned      = userData.schedules;
-                $scope.showLogin    = false;
+                if(data !== null) {
+                    $scope.name         = data.name
+                    $scope.planned      = data.schedules;
+                    $scope.showLogin    = false;
+                }
+                else {
+                    $scope.username = null;
+                }
             });
         }; // End of getUser
 
 
         $scope.addToSchedule = function() {
-            var beginTime   = timeOptions.convertTimeToMilitary($scope.startTimeOfDay, $scope.startHour.value, $scope.startMinute.value);
-            var endTime     = timeOptions.convertTimeToMilitary($scope.endTimeOfDay, $scope.endHour.value, $scope.endMinute.value);
-
-            var date        = new Date($scope.startYear.value, $scope.startMonth.value, $scope.startDay.value)
-
-            // Package data
-            var addSchedule = {
-                beginTime: beginTime,
-                endTime: endTime,
-                date: date
-            };
-
-            // PUT request to update nurse object with new schedules
-            $http({
-                url: '/api/nurses',
-                method: "PUT",
-                data: { 
-                    username: "starlord55",
-                    schedule: addSchedule 
+            try{
+                if( !$scope.startTimeOfDay && !$scope.endTimeOfDay) {
+                    throw "error"
                 }
-            }).success(function(data, status, headers, config) {
-                console.log('success', data);
 
-                addSchedule._id = data.id;
-                $scope.planned.push(addSchedule);
-                setDefaultOptions();
-            });
+                var beginTime   = timeOptions.convertTimeToMilitary($scope.startTimeOfDay, $scope.startHour.value, $scope.startMinute.value);
+                var endTime     = timeOptions.convertTimeToMilitary($scope.endTimeOfDay, $scope.endHour.value, $scope.endMinute.value);
+
+                var date        = new Date($scope.startYear.value, $scope.startMonth.value, $scope.startDay.value);
+                
+                // Package data
+                var addSchedule = {
+                    beginTime: beginTime,
+                    endTime: endTime,
+                    date: date
+                };
+
+                // PUT request to update nurse object with new schedules
+                $http({
+                    url: '/api/nurses',
+                    method: "PUT",
+                    data: { 
+                        username: $scope.username,
+                        schedule: addSchedule 
+                    }
+                }).success(function(data, status, headers, config) {
+                    addSchedule._id = data.id;
+                    $scope.planned.push(addSchedule);
+                    setDefaultOptions();
+                    $scope.errorMsg = null;
+                });
+            }
+            catch(err) {
+                $scope.errorMsg = "Something is missing!";
+            }
+
         }; // End of addToSchedule()
 
         $scope.deleteSchedule = function(id, index) {
-            console.log(index,id);
             $http({
                 url: '/api/nurses/schedule',
                 method: "DELETE",
                 params: {
-                    username: "starlord55",
+                    username: $scope.username,
                     scheduleID: id
                 }
             }).success(function(data, status, headers, config) {
                 $scope.planned.splice(index, 1);
             });
-
-
         }; // End of deleteSchedule
 
 

@@ -29,7 +29,7 @@
     <div class="container-fluid" ng-show="!showLogin">
 
         <div class="col-md-8 col-md-offset-2 text-center">
-            <h1>Schedule</h1>
+            <h1>Welcome {{ name }}!</h1>
         </div>
 
         <div class="row text-center">
@@ -54,13 +54,13 @@
                 <h2>Select End Time</h2>
             </div>
             <div id="end-time" class="col-md-6 col-md-offset-3">
-                <select ng-model="endTimeOfDay" ng-options="day as day for day in timeOfDay">
+                <select ng-model="endTimeOfDay" required ng-options="day as day for day in timeOfDay">
                 </select>
 
-                <select ng-model="endHour" ng-options="opt as opt.label for opt in hours">
+                <select ng-model="endHour" required ng-options="opt as opt.label for opt in hours">
                 </select>
 
-                <select ng-model="endMinute" ng-options="opt as opt.label for opt in minutes">
+                <select ng-model="endMinute" required ng-options="opt as opt.label for opt in minutes">
                 </select>
             </div>
         </div>
@@ -76,6 +76,12 @@
                 </select>
                 <select ng-model="startYear" ng-options="opt as opt.label for opt in year">
                 </select>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-md-6 col-md-offset-3">
+                <h4>{{ errorMsg }}</h4>
             </div>
         </div>
 
