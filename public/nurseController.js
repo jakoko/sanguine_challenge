@@ -13,25 +13,27 @@ angular.module('nurseApp')
         $scope.month        = timeOptions.month;
         $scope.day          = timeOptions.day;
         $scope.year         = timeOptions.year;
-
         var nullifyOptions  = nullifyOptions;
         setDefaultOptions();
 
-        // GET request to retrieve nurse and schedules
-        var username = "starlord55";
-        $http({
-            url: "/api/nurses",
-            method: "GET",
-            params: { username: username }
-        }).success(function(data, status, headers, config) {
+        $scope.username     = null;
+        $scope.showLogin    = true;
 
-            var userData = data;
-            $scope.planned      = userData.schedules;
+        $scope.getUser     = function() {
+            $http({
+                url: "/api/nurses",
+                method: "GET",
+                params: { username: $scope.username }
+            }).success(function(data, status, headers, config) {
 
-        });
+                var userData = data;
+                $scope.planned      = userData.schedules;
+                $scope.showLogin    = false;
+            });
+        }; // End of getUser
+
 
         $scope.addToSchedule = function() {
-
             var beginTime   = timeOptions.convertTimeToMilitary($scope.startTimeOfDay, $scope.startHour.value, $scope.startMinute.value);
             var endTime     = timeOptions.convertTimeToMilitary($scope.endTimeOfDay, $scope.endHour.value, $scope.endMinute.value);
 

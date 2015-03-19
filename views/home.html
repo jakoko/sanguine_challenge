@@ -15,7 +15,18 @@
 </head>
 
 <body ng-controller='nurseController as nurse'>
-    <div class="container-fluid">
+    <div class="container-fluid" ng-show="showLogin">
+        <div class="col-md-6 col-md-offset-3 text-center">
+            <h2>Enter Your Username</h2>
+
+            <input type="text" ng-model="username" />
+            <button ng-click="getUser()" class="btn btn-primary">
+                Enter
+            </button>
+        </div>
+    </div>
+
+    <div class="container-fluid" ng-show="!showLogin">
 
         <div class="col-md-8 col-md-offset-2 text-center">
             <h1>Schedule</h1>
