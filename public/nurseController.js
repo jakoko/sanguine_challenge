@@ -74,7 +74,6 @@ angular.module('nurseApp')
             catch(err) {
                 $scope.errorMsg = "Something is missing!";
             }
-
         }; // End of addToSchedule()
 
         $scope.deleteSchedule = function(id, index) {

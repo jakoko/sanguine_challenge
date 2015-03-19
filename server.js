@@ -7,7 +7,6 @@ mongoose.connect('mongodb://localhost/nursedatabase');
 var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
 
-
 // Schemas
 var Nurse       = require('./models/nurse.js');
 var Schedule    = require('./models/schedule.js');
@@ -19,12 +18,14 @@ seedNurse();
 // Access to files in html
 app.use("/public", express.static(__dirname + '/public'));
 app.use("/node_modules", express.static(__dirname + '/node_modules'));
+
+// Important code that I'm not quite sure how they work
 app.use(methodOverride());
 app.use(bodyParser.urlencoded({'extended':'true'}));
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
 app.use(bodyParser.json());
 
-// Routes
+
 app.get('/', function(request, response) {
     response.sendFile(__dirname + "/views/home.html")
 });
@@ -56,7 +57,6 @@ app.put('/api/nurses', function(request, response) {
         nurse.save(function(err) {
             if (err) throw err;
 
-            console.log('Schedule updated!');
             var newSchedule = nurse.schedules[nurse.schedules.length - 1];
             response.json({ id: newSchedule._id })
         });
@@ -73,13 +73,11 @@ app.delete('/api/nurses/schedule', function(request, response) {
 
         nurse.save(function(err) {
             if(err) throw err;
-            console.log("the sub doc was removed");
+
+            response.json({ message: "Success"});
         })
     });
 
-    response.json({ message: "Success"});
 }); // End of app.delete
-
-
 
 app.listen(8080);
