@@ -72,7 +72,6 @@ angular.module('nurseApp')
                 console.log('scheule removed');
 
                 $scope.planned.splice(index, 1);
-
             });
 
 
