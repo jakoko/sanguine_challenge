@@ -47,9 +47,7 @@ angular.module('nurseApp')
                 date: date
             };
 
-
-
-            // PUT to update nurse object with new schedules
+            // PUT request to update nurse object with new schedules
             $http({
                 url: '/api/nurses',
                 method: "PUT",
@@ -59,8 +57,11 @@ angular.module('nurseApp')
                 }
             }).success(function(data, status, headers, config) {
                 console.log('success', data);
-                // add to list on front end
-                // reseut values
+
+                addSchedule._id = data.id;
+                $scope.planned.push(addSchedule);
+
+                
             });
         }; // End of addToSchedule()
 

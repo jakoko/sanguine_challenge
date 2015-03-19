@@ -44,18 +44,18 @@ app.put('/api/nurses', function(request, response) {
         if(err) {
             response.send(err);
         }
-        
+  
         var nurse = data;
 
         // Add schedule
         nurse.schedules.push(request.body.schedule);
-                
-        console.log(nurse);
 
         nurse.save(function(err) {
-          if (err) throw err;
+            if (err) throw err;
 
-          console.log('Schedule updated!');
+            console.log('Schedule updated!');
+            var newSchedule = nurse.schedules[nurse.schedules.length - 1];
+            response.json({ id: newSchedule._id })
         });
 
     })
