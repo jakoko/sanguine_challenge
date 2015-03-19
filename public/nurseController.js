@@ -59,7 +59,7 @@ angular.module('nurseApp')
             });
         }; // End of addToSchedule()
 
-        $scope.deleteSchedule = function(id) {
+        $scope.deleteSchedule = function(id, index) {
 
             $http({
                 url: '/api/nurses/schedule',
@@ -70,6 +70,9 @@ angular.module('nurseApp')
                 }
             }).success(function(data, status, headers, config) {
                 console.log('scheule removed');
+
+                $scope.planned.splice(index, 1);
+
             });
 
 
