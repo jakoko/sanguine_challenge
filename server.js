@@ -1,11 +1,10 @@
 var express = require('express');
 var app     = express();
+var bodyParser      = require('body-parser');
+var methodOverride  = require('method-override');
 
 var mongoose  = require('mongoose');
 mongoose.connect('mongodb://localhost/nursedatabase');
-
-var bodyParser      = require('body-parser');
-var methodOverride  = require('method-override');
 
 // Schemas
 var Nurse       = require('./models/nurse.js');
@@ -26,55 +25,61 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(bodyParser.json());
 
 
+/******************
+* Routes
+*******************/
+// Serve up home.html at root
 app.get('/', function(request, response) {
     response.sendFile(__dirname + "/views/home.html")
 });
 
-// API Related
+/******************
+* Routes - API
+*******************/
+// Gather user through username
 app.get("/api/nurses", function(request, response){
-
     Nurse.findOne({ username: request.query.username }, function(err, data) {
-        if(err) {
-            response.send(err);
-        }
-        response.json(data);
+        if(err) { throw err; }
+        else { response.json(data); }
     });
-});
+}); // End of app.get
 
+// Add to user's schedules
 app.put('/api/nurses', function(request, response) {
-
-    // Find user
     Nurse.findOne({ username: request.body.username }, function(err, data) {
-        if(err) {
-            response.send(err);
-        }
+        if(err) throw err;
   
         var nurse = data;
-
-        // Add schedule
         nurse.schedules.push(request.body.schedule);
 
         nurse.save(function(err) {
-            if (err) throw err;
-
-            var newSchedule = nurse.schedules[nurse.schedules.length - 1];
-            response.json({ id: newSchedule._id })
+            if (err) {
+                throw err;
+            }
+            else {
+                // Return id to front-end
+                var newSchedule = nurse.schedules[nurse.schedules.length - 1];
+                response.json({ id: newSchedule._id })
+            }
         });
 
     })
 }); // End of app.put
 
-app.delete('/api/nurses/schedule', function(request, response) {
-
+// Delete a schedule
+app.delete('/api/nurses', function(request, response) {
     Nurse.findOne({ username: request.query.username }, function(err, data) {
         var nurse = data;
 
         nurse.schedules.id(request.query.scheduleID).remove();
 
         nurse.save(function(err) {
-            if(err) throw err;
-
-            response.json({ message: "Success"});
+            if(err) {
+                throw err;
+            }
+            else {
+                response.json({ message: "Success"});
+            }
         })
     });
 

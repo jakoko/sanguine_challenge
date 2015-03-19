@@ -1,14 +1,14 @@
 var Nurse       = require('./nurse.js');
 var Schedule    = require('./schedule.js');
 
-
+// Create two Nurse collections
 var seedNurse = function() {
     Nurse.find({}, function(err, collection) {
         if(collection.length === 0) {
 
             var peterNurse = Nurse({
                 name: 'Peter Quill',
-                username: 'therealstarlord'
+                username: 'starlord'
             });
             var peterSchedule = Schedule({
                 beginTime: 1200,

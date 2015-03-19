@@ -4,7 +4,7 @@ angular.module('nurseApp')
     nurseController.$inject = ['$scope', '$http', 'timeOptions'];
 
     function nurseController($scope, $http, timeOptions) {
-        // Time Related Constants and Functions
+        // Time Related Constants and Functions from timeOptions factory
         var timeOptions     = new timeOptions();
         $scope.convertDate  = timeOptions.convertDate;
         $scope.convertTimeToStandard  = timeOptions.convertTimeToStandard;
@@ -15,13 +15,22 @@ angular.module('nurseApp')
         $scope.day          = timeOptions.day;
         $scope.year         = timeOptions.year;
         var nullifyOptions  = nullifyOptions;
-        setDefaultOptions();
 
+        // Initialize values on load
+        setDefaultOptions();
         $scope.username     = null;
         $scope.showLogin    = true;
         $scope.errorMsg     = null;
 
-        $scope.getUser     = function() {
+        // Functions for API calls
+        $scope.getUser          = getUser;
+        $scope.addToSchedule    = addToSchedule;
+        $scope.deleteSchedule   = deleteSchedule;
+
+        /****************************
+        * Functions Used
+        ****************************/
+        function getUser() {
             $http({
                 url: "/api/nurses",
                 method: "GET",
@@ -35,22 +44,25 @@ angular.module('nurseApp')
                 else {
                     $scope.username = null;
                 }
+            }).error(function(data, status, headers, config) {
+                console.log("The GET request saw an error.")
             });
         }; // End of getUser
 
-
-        $scope.addToSchedule = function() {
+        function addToSchedule() {
             try{
-                if( !$scope.startTimeOfDay && !$scope.endTimeOfDay) {
+                // Ensure time of day has been selected
+                if($scope.startTimeOfDay === null || $scope.endTimeOfDay === null) {
                     throw "error"
                 }
 
-                var beginTime   = timeOptions.convertTimeToMilitary($scope.startTimeOfDay, $scope.startHour.value, $scope.startMinute.value);
-                var endTime     = timeOptions.convertTimeToMilitary($scope.endTimeOfDay, $scope.endHour.value, $scope.endMinute.value);
-
+                var beginTime   = timeOptions
+                                        .convertTimeToMilitary($scope.startTimeOfDay, $scope.startHour.value, $scope.startMinute.value);
+                var endTime     = timeOptions
+                                        .convertTimeToMilitary($scope.endTimeOfDay, $scope.endHour.value, $scope.endMinute.value);
                 var date        = new Date($scope.startYear.value, $scope.startMonth.value, $scope.startDay.value);
                 
-                // Package data
+                // Package data to create Schedule collection on server
                 var addSchedule = {
                     beginTime: beginTime,
                     endTime: endTime,
@@ -66,10 +78,15 @@ angular.module('nurseApp')
                         schedule: addSchedule 
                     }
                 }).success(function(data, status, headers, config) {
+                    // Use id from server to update view
                     addSchedule._id = data.id;
                     $scope.planned.push(addSchedule);
+
+                    // Set values to default
                     setDefaultOptions();
                     $scope.errorMsg = null;
+                }).error(function(data, status, headers, config) {
+                    console.log("The PUT request saw an error.")
                 });
             }
             catch(err) {
@@ -77,19 +94,20 @@ angular.module('nurseApp')
             }
         }; // End of addToSchedule()
 
-        $scope.deleteSchedule = function(id, index) {
+        function deleteSchedule(id, index) {
             $http({
-                url: '/api/nurses/schedule',
+                url: '/api/nurses',
                 method: "DELETE",
                 params: {
                     username: $scope.username,
                     scheduleID: id
                 }
             }).success(function(data, status, headers, config) {
-                $scope.planned.splice(index, 1);
+                $scope.planned.splice(index, 1);  // delete from view
+            }).error(function(data, status, headers, config) {
+                console.log("The DELETE request saw an error.")
             });
         }; // End of deleteSchedule
-
 
         function setDefaultOptions() {
             $scope.startTimeOfDay   = $scope.timeOfDay[0];

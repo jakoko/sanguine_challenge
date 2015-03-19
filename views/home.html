@@ -15,6 +15,8 @@
 </head>
 
 <body ng-controller='nurseController as nurse'>
+
+    <!-- User signs by username only -->
     <div class="container-fluid" ng-show="showLogin">
         <div class="col-md-6 col-md-offset-3 text-center">
             <h2>Enter Your Username</h2>
@@ -26,15 +28,17 @@
         </div>
     </div>
 
+    <!-- User dashboard -->
     <div class="container-fluid" ng-show="!showLogin">
 
         <div class="col-md-8 col-md-offset-2 text-center">
             <h1>Welcome {{ name }}!</h1>
         </div>
 
+        <!-- Select Start Time -->
         <div class="row text-center">
             <div class="col-md-6 col-md-offset-3">
-                <h2>Select Start Time</h2>
+                <h3>Select Start Time</h3>
             </div>
 
             <div id="start-time" class="col-md-6 col-md-offset-3">
@@ -49,9 +53,10 @@
             </div>
         </div>
 
+        <!-- Select End Time -->
         <div class="row text-center">
             <div class="col-md-6 col-md-offset-3">
-                <h2>Select End Time</h2>
+                <h3>Select End Time</h3>
             </div>
             <div id="end-time" class="col-md-6 col-md-offset-3">
                 <select ng-model="endTimeOfDay" required ng-options="day as day for day in timeOfDay">
@@ -65,9 +70,10 @@
             </div>
         </div>
 
+        <!-- Select date of appointment -->
         <div class="row text-center">
             <div class="col-md-6 col-md-offset-3">
-                <h2>Enter Date</h2>
+                <h3>Select Date</h3>
             </div>
             <div id="date" class="col-md-6 col-md-offset-3">
                 <select ng-model="startMonth" ng-options="opt as opt.label for opt in month">
@@ -79,6 +85,7 @@
             </div>
         </div>
 
+        <!-- Placeholder for error messages -->
         <div class="row text-center">
             <div class="col-md-6 col-md-offset-3">
                 <h4>{{ errorMsg }}</h4>
@@ -93,6 +100,7 @@
             </div>
         </div>
 
+        <!-- Planned Appointments -->
         <div class="col-md-8 col-md-offset-2 text-center">
             <div class="col-md-6 col-md-offset-3">
                 <h2>Planned Appointments</h2>
@@ -117,7 +125,6 @@
                 </tr>
             </table>
         </div>
-
 
     </div>
 </body>

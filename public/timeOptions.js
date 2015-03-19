@@ -7,7 +7,6 @@ function timeOptionsFunc() {
     var timeOptions = function() {
         this.timeOfDay = ["AM", "PM"];
 
-        // Hours Options
         this.hours = [
             { label: '1', value: 1 },
             { label: '2', value: 2 },
@@ -105,7 +104,6 @@ function timeOptionsFunc() {
         };
 
         this.convertTimeToStandard = function(militaryTime) {
-
             var convertedTime   = "";
             var stringLength    = militaryTime.length;
             var tempInt         = parseInt(militaryTime, 10);
@@ -127,7 +125,6 @@ function timeOptionsFunc() {
                 temparr.splice(stringLength - 2, 0, ":");
                 convertedTime   = temparr.join('') + " PM";
             }
-
             return convertedTime;
         };
 
