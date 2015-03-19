@@ -8,8 +8,7 @@ var seedNurse = function() {
 
             var peterNurse = Nurse({
                 name: 'Peter Quill',
-                username: 'therealstarlord',
-                password: 'password'
+                username: 'therealstarlord'
             });
             var peterSchedule = Schedule({
                 beginTime: 1200,
@@ -23,8 +22,7 @@ var seedNurse = function() {
 
             var joyNurse = Nurse({
                 name: 'Nurse Joy',
-                username: 'pinky',
-                password: 'password'
+                username: 'pinky'
             });
             var joySchedule1 = Schedule({
                 beginTime: 900,
