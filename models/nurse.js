@@ -6,7 +6,7 @@ var Schedule    = require('./schedule.js');
 
 var nurseSchema   = new Schema({
     name: String,
-    username: { type: String, required: true },
+    username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     schedules: [Schedule.schema]
 });
